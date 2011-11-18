@@ -13,11 +13,27 @@ module Rexval
     # end
     module Constraints
       def resource(*args, &block)
-        rexval_routing(*args, &block)
+        # rexval_routing(*args, &block)
+        rsym = args.first
+        hash = Array.wrap(Rexval::MODEL_FIELDS[rsym.to_s.singularize]).inject({}) do |hsh, fld|
+          hsh[fld] = regex_for(rsym, fld); hsh
+        end
+      
+        constraints(hash) do
+          super
+        end
       end
     
       def resources(*args, &block)
-        rexval_routing(*args, &block)
+        # rexval_routing(*args, &block)
+        rsym = args.first
+        hash = Array.wrap(Rexval::MODEL_FIELDS[rsym.to_s.singularize]).inject({}) do |hsh, fld|
+          hsh[fld] = regex_for(rsym, fld); hsh
+        end
+      
+        constraints(hash) do
+          super
+        end
       end
     
     protected
