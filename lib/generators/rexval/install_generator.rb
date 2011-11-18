@@ -9,9 +9,10 @@ module Rexval
       class_option :orm
 
       def copy_initializers
-        empty_directory "config/initializers/rexval"
-        template "rexval.rb", "config/initializers/rexval/rexval.rb"
-        template "regular_expressions.rb", "lib/rexval/regular_expressions.rb"
+        init_path = "config/initializers/rexval"
+        empty_directory init_path
+        template "rexval.rb",               "#{init_path}/rexval.rb"
+        template "regular_expressions.rb",  "#{init_path}/regular_expressions.rb"
       end
 
       def copy_locale
