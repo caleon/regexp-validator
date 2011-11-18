@@ -1,0 +1,9 @@
+# model_name: '[a-z]\w*[a-z0-9]'
+# # Base level attributes:
+# id: '\d+'
+# # Generic "name"
+# name: "[\w\(][\s\w\'\"\.\,\(\)]+[\w\)]+"
+# # The following is not within :user because this may apply to non-user models
+# 
+# 
+# # down the line, models that also deal with human names.

@@ -1,0 +1,25 @@
+= RegexpValidator
+
+== Install:
+
+    gem 'regexp-validator', :git => "git://github.com/caleon/regexp-validator.git"
+
+== Info:
+
+
+
+== Additional information
+
+=== Contributors
+
+We have a short list of valued contributors. Check them all at:
+
+http://github.com/caleon/regexp-validator/contributors
+
+=== Maintainers
+
+* caleon (http://github.com/caleon)
+
+== License
+
+MIT License. Copyright 2011 caleon.

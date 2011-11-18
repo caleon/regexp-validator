@@ -1,0 +1,23 @@
+
+===============================================================================
+
+Some setup you must do manually if you haven't yet:
+
+	1. 	Setup models with either:
+		
+		 		rex_validate :name, :email, :age
+
+			or add an option to existing `validates [FIELD]` calls like:
+		
+				validates :name, :regexp => true
+
+  2. 	Setup routes with :constraints => { :id => regex_for(:id) } for instance
+			but they will automatically be handled if you run `rex_validate` within
+			your model.
+
+				
+	3.	You can also call form tag helpers with the option :regexp => true
+			to implant a client-side level of validation based on HTML5 and
+			Javascript.
+				
+===============================================================================
