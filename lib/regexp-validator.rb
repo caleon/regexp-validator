@@ -23,6 +23,16 @@ module Rexval
   mattr_accessor :default_regexp
   @@default_regexp = /^.*$/
   
+  # Keys that should be case-insensitive.
+  # False by default for backwards compatibility.
+  mattr_accessor :case_insensitive_keys
+  @@case_insensitive_keys = false
+  
+  # Keys that should have whitespace stripped.
+  # False by default for backwards compatibility.
+  mattr_accessor :strip_whitespace_keys
+  @@strip_whitespace_keys = false
+  
   # Default way to setup Rexval. Run rails generate rexval:install to create
   # a fresh initializer with all configuration values.
   def self.setup
