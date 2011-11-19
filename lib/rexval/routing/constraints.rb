@@ -14,39 +14,47 @@ module Rexval
     module Constraints
       def resource(*args, &block)
         # rexval_routing(*args, &block)
-        rsym = args.first
-        hash = Array.wrap(Rexval::MODEL_FIELDS[rsym.to_s.singularize]).inject({}) do |hsh, fld|
-          hsh[fld] = regex_for(rsym, fld); hsh
+        rsym = args.first.to_s.to_sym
+        reqs = Array.wrap(Rexval::FIELDS[rsym]).inject({}) do |hsh, fld|
+          regex_for(rsym, fld).and_also { |rex| hsh[fld] = rex }
+          hsh
         end
+        
+        Rexval.add_route_reqs(rsym, reqs)
       
-        constraints(hash) do
+        constraints(reqs) do
           super
         end
       end
     
       def resources(*args, &block)
         # rexval_routing(*args, &block)
-        rsym = args.first
-        hash = Array.wrap(Rexval::MODEL_FIELDS[rsym.to_s.singularize]).inject({}) do |hsh, fld|
-          hsh[fld] = regex_for(rsym, fld); hsh
+        rsym = args.first.to_s.singularize.to_sym
+        reqs = Array.wrap(Rexval::FIELDS[rsym]).inject({}) do |hsh, fld|
+          regex_for(rsym, fld).and_also { |rex| hsh[fld] = rex }
+          hsh
         end
+        
+        Rexval.add_route_reqs(rsym, reqs)
       
-        constraints(hash) do
+        constraints(reqs) do
           super
         end
       end
     
     protected
-      def rexval_routing(*args, &block)
-        rsym = args.first
-        hash = Array.wrap(Rexval::MODEL_FIELDS[rsym.to_s.singularize]).inject({}) do |hsh, fld|
-          hsh[fld] = regex_for(rsym, fld); hsh
-        end
-      
-        constraints(hash) do
-          super
-        end
-      end
+      # def rexval_routing(*args, &block)
+      #   rsym = args.first
+      #   hash = Array.wrap(Rexval::FIELDS[rsym.to_s.singularize]).inject({}) do |hsh, fld|
+      #     hsh[fld] = regex_for(rsym, fld); hsh
+      #   end
+      #   
+      #   Rexval::ROUTE_REXES[rsym] = (Rexval::ROUTE_REXES[rsym] || {}).merge(hash)
+      # 
+      #   constraints(hash) do
+      #     super
+      #   end
+      # end
     end
     
   end

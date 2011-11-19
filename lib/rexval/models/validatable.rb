@@ -20,8 +20,13 @@ module Rexval
         def validates(*attributes)
           defaults = attributes.extract_options!
           
-          super(*(self.rexval_fields & attributes).push(defaults.merge(:regexp => true)))
-          super(*(attributes - self.rexval_fields).push(defaults))
+          if !(special_fields = self.rexval_fields & attributes).empty?
+            super(*special_fields.push(defaults.merge(:regexp => true)))
+          end
+          
+          if !(normal_fields = attributes - self.rexval_fields).empty?
+            super(*normal_fields.push(defaults))
+          end
         end
                 
       end

@@ -41,24 +41,4 @@ module Rexval
   }
 
 
-  # REGEX is the Regular Expression that is not anchored.
-  REGEX = Hash[*REGES.to_a.map do |arr|
-   [ arr[0], 
-     if arr[1].is_a?(Hash)
-       Hash[*arr[1].to_a.map { |key, reges| [ key, Regexp.new(reges, Regexp::IGNORECASE) ] }.flatten]
-     else
-       Regexp.new(arr[1], Regexp::IGNORECASE)
-     end ]
-  end.flatten]
-
-
-  # REGEXP matches the entire string (note the caret and dollar signs)
-  REGEXP = Hash[*REGES.to_a.map do |arr|
-   [ arr[0],
-     if arr[1].is_a?(Hash)
-       Hash[*arr[1].to_a.map { |arrr| [ arrr[0], /^#{arrr[1]}$/ ] }.flatten]
-     else
-       /^#{arr[1]}$/
-     end ]
-  end.flatten]
 end

@@ -3,8 +3,7 @@
 module Rexval
   module RegexpFinder
     def reges_for(*args)
-      (field, klass), opts = args.args_with_reverse_and_options!
-      (klass && Rexval.reges_for(klass, field) rescue nil) || Rexval.reges_for(field) || ".*"
+      Rexval.reges_for(*args)
     end
   
     def regex_for(*args)

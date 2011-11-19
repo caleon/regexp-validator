@@ -17,8 +17,13 @@ module Rexval
   
   # Constants which holds rexval configuration for extensions. Those should
   # not be modified by the "end user" (this is why they are constants).
-  ALL           = []
-  MODEL_FIELDS  = ActiveSupport::OrderedHash.new
+  ALL         = []
+  FIELDS      = ActiveSupport::OrderedHash.new
+  ROUTE_REQS  = ActiveSupport::OrderedHash.new
+  
+  def self.add_route_reqs(rsym, reqs)
+    ROUTE_REQS[rsym] = (ROUTE_REQS[rsym] || {}).merge(reqs)
+  end
   
   mattr_accessor :default_regexp
   @@default_regexp = /^.*$/
@@ -76,8 +81,15 @@ module Rexval
     end
   end
   
-  def self.reges_for(arg1, arg2=nil)
-    arg2 ? REGES[arg1][arg2] : REGES[arg1]
+  def self.reges_for(*args)
+    (arg1, arg2), opts = args.args_and_opts!
+    base = opts[:route] ? REGES[:route] : REGES
+    
+    if arg2
+      base[arg1].try(:[], arg2) || base[arg2]
+    else
+      base[arg1]
+    end or opts[:route] && reges_for(arg1, arg2) or ".*"
   end
     
 end

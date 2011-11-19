@@ -68,7 +68,7 @@ module Rexval
         self.rexval_modules |= selected_modules
         self.rexval_fields  |= selected_fields
         
-        Rexval::MODEL_FIELDS[self.model_name.i18n_key] = self.rexval_fields
+        Rexval::FIELDS[self.model_name.i18n_key] = self.rexval_fields
         
         options.each { |key, value| send(:"#{key}=", value) }
       end
