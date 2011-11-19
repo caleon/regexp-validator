@@ -20,7 +20,7 @@ module Rexval
           hsh
         end
         
-        Rexval.add_route_reqs(rsym, reqs)
+        # Rexval.add_route_reqs(rsym, reqs)
       
         constraints(reqs) do
           super
@@ -35,7 +35,11 @@ module Rexval
           hsh
         end
         
-        Rexval.add_route_reqs(rsym, reqs)
+        # Rexval.add_route_reqs(rsym, reqs)
+        
+        # rexval_routing(*args, &block) do
+        #   super
+        # end
       
         constraints(reqs) do
           super

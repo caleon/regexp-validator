@@ -19,11 +19,11 @@ module Rexval
   # not be modified by the "end user" (this is why they are constants).
   ALL         = []
   FIELDS      = ActiveSupport::OrderedHash.new
-  ROUTE_REQS  = ActiveSupport::OrderedHash.new
+  # ROUTE_REQS  = ActiveSupport::OrderedHash.new
   
-  def self.add_route_reqs(rsym, reqs)
-    ROUTE_REQS[rsym] = (ROUTE_REQS[rsym] || {}).merge(reqs)
-  end
+  # def self.add_route_reqs(rsym, reqs)
+  #   ROUTE_REQS[rsym] = (ROUTE_REQS[rsym] || {}).merge(reqs)
+  # end
   
   mattr_accessor :default_regexp
   @@default_regexp = /^.*$/

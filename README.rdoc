@@ -1,14 +1,80 @@
 = RegexpValidator
 
-== Install:
+== Install
 
     gem 'regexp-validator', :git => "git://github.com/caleon/regexp-validator.git"
 
-== Info:
+== Info
 
+Over the course of the development of a typical Rails app, you may find yourself having to hard-code or defining multiple times the regular expressions used to validate model field inputs. Additionally, these regular expressions are often useful in places outside of the model file, including routes, views, helpers, etc.
+
+=== The goals of this gem:
+
+ 1. Centralize all of the regular expressions into one file,
+ 2. Incoporate those validations in routes.rb,
+ 3. Include those requirements in HTML5 input tags for client-side verification.
+
+== Setup
+
+In the Gemfile, include:
+
+    gem 'regexp-validator', :git => 'git://github.com/caleon/regexp-validator.git'
+
+Then in your project,
+
+    bundle install
+
+...after which you can run the generator for setting up the initializer file with configs, the locale file, and the centralized regular expressions file:
+
+    rails g rexval:install
+
+Make sure config/initializers/rexval.rb is to your liking (as of this writing there ain't much to configure).
+
+== Usage:
+
+=== Centralized expressions
+
+First make sure the hash dictionary in config/initializers/rexval/regular_expressions.rb are to your liking. Special cases for routing validations go within the :route key-val pair. The usage of the :route key is for instance where although your User objects' `id` field is typically a numeric value, you want the :id or :user_id parameter within routes under the `resource` or `resources` mappings to utilize the User object's `username` field as its primary key (permalink). In such a case, the regular_expressions.rb file may look something like this:
+
+    :route => { :user => { :id => /[-_a-zA-Z0-9]+/ } },
+    :user  => { :id => /\d+/ }
+
+=== Model files
+
+Once that file is satisfactorily complete, go into your model and add something to the effect of:
+
+    rex_validate :id, :email, :first_name, :last_name
+
+...making sure this call to the class method happens prior to all other `validates` calls. After this line is included, you can proceed as usual:
+
+    rex_validate :id, :email, ;first_name, :last_name
+    
+    validates :email, :presence => true, :uniqueness => true
+    validates :first_name, :last_name, :presence => true
+
+...because when `validates` is called with an attribute name that is included in the list of fields already marked by `rex_validate`, the gem will add to `validates` the option :regexp => true for format validations. On that note, you can simply forego the usage of `rex_validate` to utilize the RegexpValidator validation class manually in the following manner:
+
+    validates :email, :presence => true, :uniqueness => true, :regexp => true
+
+...except without registering the fields through `rex_validate`, the automatic routes validation, and ActionView helper method generations don't take place.
+
+
+=== Routes
+
+Utilizing `rex_validate` in your model file means whenever there is a call in your routes.rb for a resource(s) mapping on a qualifying model, the gem will automatically include the requirements for parameters whose names match the list of fields registered as validatable through regular expressions. Alternatively, you can do this manually in the following manner in your routes.rb file:
+
+    resources :users, :id => regex_finder(:user, :username)
+
+=== View Helpers
+
+Not implemented yet. 
 
 
 == Additional information
+
+=== Inspirations
+
+This gem, being one of the earliest gems I've worked on, was influenced heavily by the gem structure of the wonderful Devise gem by Jose Valim (http://github.com/plataformatec/devise).
 
 === Contributors
 
