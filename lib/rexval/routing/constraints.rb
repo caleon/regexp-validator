@@ -13,52 +13,35 @@ module Rexval
     # end
     module Constraints
       def resource(*args, &block)
-        # rexval_routing(*args, &block)
+        opts = args.extract_options!
+        old_reqs = opts[:constraints] || {}
+        
         rsym = args.first.to_s.to_sym
-        reqs = Array.wrap(Rexval::FIELDS[rsym]).inject({}) do |hsh, fld|
+        new_reqs = Array.wrap(Rexval::FIELDS[rsym]).inject({}) do |hsh, fld|
           regex_for(rsym, fld).and_also { |rex| hsh[fld] = rex }
           hsh
         end
         
-        # Rexval.add_route_reqs(rsym, reqs)
-      
-        constraints(reqs) do
-          super
-        end
+        reqs = new_reqs.merge(old_reqs)
+        
+        super(*args, opts.merge(:constraints => reqs))
       end
     
       def resources(*args, &block)
-        # rexval_routing(*args, &block)
-        rsym = args.first.to_s.singularize.to_sym
-        reqs = Array.wrap(Rexval::FIELDS[rsym]).inject({}) do |hsh, fld|
+        opts = args.extract_options!
+        old_reqs = opts[:constraints] || {}
+        
+        rsym = args.first.to_s.to_sym
+        new_reqs = Array.wrap(Rexval::FIELDS[rsym]).inject({}) do |hsh, fld|
           regex_for(rsym, fld).and_also { |rex| hsh[fld] = rex }
           hsh
         end
         
-        # Rexval.add_route_reqs(rsym, reqs)
+        reqs = new_reqs.merge(old_reqs)
         
-        # rexval_routing(*args, &block) do
-        #   super
-        # end
-      
-        constraints(reqs) do
-          super
-        end
+        super(*args, opts.merge(:constraints => reqs))
       end
     
-    protected
-      # def rexval_routing(*args, &block)
-      #   rsym = args.first
-      #   hash = Array.wrap(Rexval::FIELDS[rsym.to_s.singularize]).inject({}) do |hsh, fld|
-      #     hsh[fld] = regex_for(rsym, fld); hsh
-      #   end
-      #   
-      #   Rexval::ROUTE_REXES[rsym] = (Rexval::ROUTE_REXES[rsym] || {}).merge(hash)
-      # 
-      #   constraints(hash) do
-      #     super
-      #   end
-      # end
     end
     
   end
