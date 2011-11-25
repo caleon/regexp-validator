@@ -98,3 +98,4 @@ require 'rexval/regexp_validator'
 require 'rexval/models'
 require 'rexval/modules'
 require 'rexval/routing'
+require 'rexval/devise_tweaks' if Object.const_defined?(:Devise)

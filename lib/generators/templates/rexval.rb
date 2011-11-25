@@ -14,3 +14,9 @@ Rexval.setup do |config|
   # Configure which authentication keys should have whitespace stripped.
   config.strip_whitespace_keys = [ :email ]
 end
+
+if Object.const_defined?(:Devise)
+  Devise.setup do |config|
+    config.email_regexp = /A#{Rexval.reges_for(:email)}\z/
+  end
+end

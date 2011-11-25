@@ -1,6 +1,3 @@
-# Not required anywhere yet. On purpose.
-
-
 # Defaults: [[:"activerecord.errors.models.user.attributes.first_name.regexp", :"activerecord.errors.models.user.regexp"], :"activerecord.errors.messages.regexp", :"errors.attributes.first_name.regexp", :"errors.messages.regexp"]
 
 # For #generate_message,
@@ -11,8 +8,6 @@
 #   value = "" if blank... but I don't think this matters.
 # All but the first of the above are part of the hash options passed as second argument
 # to I18n.translate(key, options)
-
-
 module Devise
   module Models
    # Override to utilize centralized REGEXP constants for validations. Note the lines marked by CHANGED tag.   
@@ -31,7 +26,7 @@ module Devise
         end
       end
     end # end Validatable
-    
+  
  end # end Models
 end # end Devise
 
@@ -45,20 +40,20 @@ module ActiveRecord
     class << self
       def generate_error_message(attribute, type = :invalid, options = {})
         type = options.delete(:message) if options[:message].is_a?(Symbol)
-        
+      
         defaults = self.lookup_ancestors.map do |klass|
           [ :"#{self.i18n_scope}.errors.models.#{klass.model_name.i18n_key}.attributes.#{attribute}.#{type}",
             :"#{self.i18n_scope}.errors.models.#{klass.model_name.i18n_key}.#{type}" ]
         end
-        
+      
         defaults << options.delete(:message)
         defaults << :"#{self.i18n_scope}.errors.messages.#{type}"
         defaults << :"errors.attributes.#{attribute}.#{type}"
         defaults << :"errors.messages.#{type}"
-        
+      
         defaults.compact!
         defaults.flatten!
-        
+      
         key = defaults.shift
 
         options = {
@@ -72,7 +67,7 @@ module ActiveRecord
     end
   end
 end
-   
+ 
 # Rewrite of ActiveModel::Errors in:
 # /Users/colin/.rvm/gems/ruby-1.9.2-p290\@crowdalpha/gems/activemodel-3.1.0/lib/active_model/errors.rb
 # line 293, for #generate_message
@@ -81,7 +76,7 @@ module ActiveModel
     def generate_message(attribute, type = :invalid, options = {})
       value = (attribute != :base ? @base.send(:read_attribute_for_validation, attribute) : nil)
       options.reverse_merge(:value => value)
-      
+    
       @base.class.generate_error_message(attribute, type, options)
     end
   end
