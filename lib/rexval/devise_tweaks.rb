@@ -84,7 +84,7 @@ module ActiveModel
     def discriminating_generate_message(attribute, type = :invalid, options = {})
       if @base.class.kind_of?(ActiveRecord::Base)
         value = (attribute != :base ? @base.send(:read_attribute_for_validation, attribute) : nil)
-        options.reverse_merge(:value => value)
+        options.reverse_merge!(:value => value)
     
         @base.class.generate_error_message(attribute, type, options)
       else
