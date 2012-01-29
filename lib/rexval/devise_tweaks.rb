@@ -79,12 +79,18 @@ end
 # /Users/colin/.rvm/gems/ruby-1.9.2-p290\@crowdalpha/gems/activemodel-3.1.0/lib/active_model/errors.rb
 # line 293, for #generate_message
 module ActiveModel
-  class Errors 
-    def generate_message(attribute, type = :invalid, options = {})
-      value = (attribute != :base ? @base.send(:read_attribute_for_validation, attribute) : nil)
-      options.reverse_merge(:value => value)
+  class Errors
+    alias_method :existing_generate_message, :generate_message
+    def discriminating_generate_message(attribute, type = :invalid, options = {})
+      if @base.class.kind_of?(ActiveRecord::Base)
+        value = (attribute != :base ? @base.send(:read_attribute_for_validation, attribute) : nil)
+        options.reverse_merge(:value => value)
     
-      @base.class.generate_error_message(attribute, type, options)
+        @base.class.generate_error_message(attribute, type, options)
+      else
+        existing_generate_message(attribute, type, options)
+      end
     end
+    alias_method :generate_message, :discriminating_generate_message
   end
 end
