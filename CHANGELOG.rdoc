@@ -1,3 +1,7 @@
+== 0.0.10
+
+* alias method clashes and the unavailability of generate error message handler in ActiveModel items.
+
 == 0.0.9
 
 * Fixing bug resulting in regexp validating fields more than once
