@@ -11,6 +11,8 @@
 module Devise
   module Models
    # Override to utilize centralized REGEXP constants for validations. Note the lines marked by CHANGED tag.   
+   # In order for this to work, regexp-validator needs to be added to Gemfile
+   # after Devise.
     module Validatable
       def self.included(base)
         base.extend ClassMethods
@@ -19,11 +21,16 @@ module Devise
         base.class_eval do
           validates_presence_of   :email, :if => :email_required?
           validates_uniqueness_of :email, :case_sensitive => (case_insensitive_keys != false), :allow_blank => true, :if => :email_changed?
-          validates_format_of     :email, :with => Rexval::REGEXP[:email], :allow_blank => true, :if => :email_changed?, :message => :regexp # CHANGED
+          # validates_format_of     :email, :with  => email_regexp, :allow_blank => true, :if => :email_changed?
           validates_presence_of     :password, :if => :password_required?
           validates_confirmation_of :password, :if => :password_required?
           validates_length_of       :password, :within => password_length, :allow_blank => true
         end
+        
+        # base.class_eval do
+        #   _validators[:email].delete_if { |v|
+        #             v.is_a?(ActiveModel::Validations::FormatValidator) }
+        # end
       end
     end # end Validatable
   

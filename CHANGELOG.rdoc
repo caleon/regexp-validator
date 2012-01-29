@@ -1,0 +1,5 @@
+== 0.0.8
+
+* Adding CHANGELOG.rdoc
+* Removing Devise's default FormatValidator on email to use the RegexpValidator instead
+* Taking out jquery-rails from Gemfile for now
