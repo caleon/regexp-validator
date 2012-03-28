@@ -1,4 +1,4 @@
-require 'core_utilities/core_ext/array'
+require 'justools/core_ext/array'
 
 module Rexval
   module Routing

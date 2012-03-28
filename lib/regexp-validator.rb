@@ -5,7 +5,7 @@ require 'orm_adapter'
 require 'set'
 require 'securerandom'
 
-require 'core_utilities'
+require 'justools'
 
 module Rexval
   autoload :RegexpFinder,   'rexval/regexp_finder'

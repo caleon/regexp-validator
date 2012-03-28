@@ -1,4 +1,4 @@
-== 0.0.13
+== 0.0.14
 
 * Removing constraint for Rails ~> 3.1.1 to allow 3.2
 
