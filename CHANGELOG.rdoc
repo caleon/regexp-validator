@@ -1,3 +1,7 @@
+== 0.0.12
+
+* Removing constraint for Rails ~> 3.1.1 to allow 3.2
+
 == 0.0.11
 
 * Fixed bug to replace in place the reverse merge that was going unused prior to the change.
